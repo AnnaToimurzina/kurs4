@@ -6,8 +6,8 @@ from bs4 import BeautifulSoup
 import fake_useragent
 import time
 class Vacancy(ABC):
-    def __init__(self, search_text):
-        self.search_text = search_text
+    def __init__(self, keyword):
+        self.keyword = keyword
 
     @abstractmethod
     def get_vacancies(self):
@@ -25,13 +25,13 @@ class Vacancy(ABC):
             all_vacancies_info.append(vacancy_info)
         return all_vacancies_info
 
-class HH:
-    def __init__(self, search_text):
-        self.search_text = search_text
+class HH(Vacancy):
+    def __init__(self, keyword):
+        self.keyword = keyword
 
 
     def get_vacancies(self):
-        url = f'https://api.hh.ru/vacancies?text={self.search_text}&page=20'
+        url = f'https://api.hh.ru/vacancies?text={self.keyword}&page=20'
         response = requests.get(url)
         return response.json()['items']
 
@@ -52,7 +52,8 @@ class HH:
 
 
 
-vacancy = HH('Python разработчик')
+keyword = input('Введите ключевое слово для поиска')
+vacancy = HH(keyword)
 all_vacancies_info = vacancy.get_all_vacancies_info()
 print(all_vacancies_info)
 
