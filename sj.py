@@ -16,7 +16,6 @@ class SJ():
         self.params = {'keyword': self.keyword, 'page': 0, 'count': 100}
         self.vacancies = []
 
-    @property
 
     def get_vacancies(self) -> None:
         """

@@ -1,9 +1,9 @@
 from hh import Vacancy, HH
 from sj import SJ
 from json_class import JsonJobFile
-from Error_pars import JobParseXNoObjectError, JobParseXNoDataError
+from Error_pars import JobParseXNoObjectError
 
-class Answer():
+class Page1:
     """
     Класс для взаимодействия с пользователем. Главная страница
     """
@@ -57,24 +57,7 @@ class Answer():
             print("Вакансия не найдена. Повторите запрос")
 
 
-    def load_vacancies(self) -> None:
-        """
-        Функция для поиска вакансий в файле
-        """
-        self.vacancies.clear()
-        search_query = input("Введите поисковый запрос: ")
-        data_tmp = self.path.get_vacancies(search_query=search_query)
-        if len(data_tmp) > 0:
-            for item in data_tmp:
-                vacancy = Vacancy(item)
-                if not any(v.id == vacancy.id for v in self.vacancies):
-                    print(vacancy, "\n", "_" * 50)
-                    self.vacancies.append(vacancy)
-        else:
-            raise JobParseXNoObjectError
-
-
 if __name__ == "__main__":
-    Answer()
+    Page1()()
 
 
