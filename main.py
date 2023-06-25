@@ -3,7 +3,7 @@ from sj import SJ
 from json_class import JsonJobFile
 from Error_pars import JobParseXNoObjectError, JobParseXNoDataError
 
-class Answer:
+class Answer():
     """
     Класс для взаимодействия с пользователем. Главная страница
     """

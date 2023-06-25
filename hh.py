@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import fake_useragent
 import time
 class Vacancy(ABC):
+    '''Абстрактный класс для работы с платформами по поиску вакансий по API'''
     def __init__(self, keyword):
         self.keyword = keyword
 
@@ -20,18 +21,19 @@ class Vacancy(ABC):
 
     def get_all_vacancies_info(self):
         all_vacancies_info = []
-        for vacancy in self.get_vacancies():
+        for vacancy in self.get_vacancies:
             vacancy_info = self.get_vacancy_info(vacancy)
             all_vacancies_info.append(vacancy_info)
         return all_vacancies_info
 
 class HH(Vacancy):
-    def __init__(self, keyword):
-        self.keyword = keyword
-
+    '''Класс для работы с платформами по поиску вакансий по API'''
+    def __init__(self, keywords):
+        super().__init__(keywords)
+        self.keywords = keywords
 
     def get_vacancies(self):
-        url = f'https://api.hh.ru/vacancies?text={self.keyword}&page=20'
+        url = f'https://api.hh.ru/vacancies?text={self.keywords}&page=20'
         response = requests.get(url)
         return response.json()['items']
 
@@ -52,8 +54,7 @@ class HH(Vacancy):
 
 
 
-keyword = input('Введите ключевое слово для поиска')
-vacancy = HH(keyword)
-all_vacancies_info = vacancy.get_all_vacancies_info()
-print(all_vacancies_info)
+
+
+
 

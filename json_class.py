@@ -7,7 +7,7 @@ class JsonJobFile:
     Класс для работы с вакансиями в json файле.
     """
     def __init__(self) -> None:
-        self.file_path = os.path.join('data', 'vacancy.json')
+        self.file_path = os.path.join('vacancy.json')
 
     def add_vacancy(self, vacancy, data_append=False) -> None:
         """
