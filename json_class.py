@@ -1,8 +1,10 @@
 import json
 import os
+from vacancy import Vacancy
 
 
-class JsonJobFile:
+
+class JsonJobFile():
     """
     Класс для работы с вакансиями в json файле.
     """
@@ -29,15 +31,22 @@ class JsonJobFile:
             os.makedirs("data")
             self.write_file(vacancy)
 
-    def get_vacancies(self, search_query: str) -> list:
+    def get_vacancies(self) -> list:
         """
-        Функция для поиска вакансий по ключевым словам.
+        Функция получения списка экземпляров класса Vacancy.
         """
-        keywords = search_query.lower().split()
-        result = []
+        vacancies = []
         data = self.read_file()
-        self.search_in_data(data, keywords, result)
-        return result
+        for vacancy in data:
+            title = vacancy["title"]
+            company = vacancy["company"]
+            url = vacancy["url"]
+            area = vacancy["area"]
+            payment_from = vacancy["payment"]["from"]
+            payment_to = vacancy["payment"]["to"]
+            platform = vacancy["platform"]
+            vacancies.append(Vacancy(title, company, url, area, payment_from, payment_to, platform))
+        return vacancies
 
     def remove_vacancy(self, vacancy_id: str) -> None:
         try:
@@ -53,7 +62,7 @@ class JsonJobFile:
         """
         Функция чтения данных из файла.
         """
-        with open(self.file_path, "r") as file:
+        with open(self.file_path, "r", encoding="utf-8") as file:
             data = json.load(file)
         return data
 
@@ -61,9 +70,8 @@ class JsonJobFile:
         """
         Функция записи данных в файл.
         """
-        with open(self.file_path, "w") as file:
-            write_data = json.dumps(data, indent=2, ensure_ascii=False)
-            file.write(write_data)
+        with open(self.file_path, "w", encoding="utf-8") as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
 
     def search_in_data(self, data, keywords, result):
         """

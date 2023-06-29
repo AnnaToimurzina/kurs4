@@ -26,16 +26,14 @@ class SJ():
         """
 
         vacancies_tmp = []
-        while True:
-            url = f'https://api.superjob.ru/2.0/vacancies/'
+        url = f'https://api.superjob.ru/2.0/vacancies/'
+        count = 5
+        while self.params["page"] < count:
             response = requests.get(url, headers=self.headers, params=self.params)
             if response.status_code == 200:
                 print(f'{self.__class__.__name__} загрузка страницы {self.params["page"]}')
                 data = response.json()
                 vacancies_tmp.extend(data['objects'])
-                more_results = data['more']
-                if not more_results:
-                    break
                 self.params['page'] += 1
             else:
                 print('Ошибка при получении списка вакансий с API SuperJob.ru:', response.text)
@@ -71,6 +69,14 @@ class SJ():
                 vacancies.append(processed_vacancy)
 
         return vacancies
+
+
+
+
+
+
+
+
 
 
 
